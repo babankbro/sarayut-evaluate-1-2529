@@ -63,6 +63,72 @@ const documents = [
   },
 ];
 
+function getDepth(id: string): number {
+  return id.split(".").length;
+}
+
+function getParentId(id: string): string {
+  const parts = id.split(".");
+  return parts.slice(0, -1).join(".");
+}
+
+type DocItem = { id: string; name: string; file: string };
+
+function buildTree(items: DocItem[]) {
+  const roots: { item: DocItem; children: DocItem[] }[] = [];
+  const map: Record<string, { item: DocItem; children: DocItem[] }> = {};
+
+  for (const item of items) {
+    map[item.id] = { item, children: [] };
+  }
+
+  for (const item of items) {
+    const depth = getDepth(item.id);
+    const parentId = getParentId(item.id);
+    if (depth > 2 && map[parentId]) {
+      map[parentId].children.push(item);
+    } else {
+      roots.push(map[item.id]);
+    }
+  }
+
+  return roots;
+}
+
+function DocRow({ item, isChild }: { item: DocItem; isChild?: boolean }) {
+  return (
+    <a
+      href={`/reference/${encodeURIComponent(item.file)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center gap-3 px-4 py-2.5 rounded-lg border border-transparent transition-colors"
+      style={{ marginLeft: isChild ? "2rem" : "0" }}
+      onMouseEnter={e => { e.currentTarget.style.background = '#eef1fb'; e.currentTarget.style.borderColor = '#b8c5ef'; }}
+      onMouseLeave={e => { e.currentTarget.style.background = ''; e.currentTarget.style.borderColor = 'transparent'; }}
+    >
+      {isChild && (
+        <span className="flex-shrink-0 text-slate-300 select-none" style={{ marginLeft: "-0.5rem" }}>└</span>
+      )}
+      <span
+        className="flex-shrink-0 text-center text-xs font-mono px-2 py-1 rounded"
+        style={{
+          background: isChild ? '#f4f7ff' : '#eef1fb',
+          color: isChild ? '#7091E6' : '#3D52A0',
+          minWidth: isChild ? '3.5rem' : '3.5rem',
+        }}
+      >
+        {item.id}
+      </span>
+      <span className="text-slate-700 text-sm flex-1">
+        {item.name}
+      </span>
+      <svg className="w-4 h-4 flex-shrink-0" style={{ color: '#7091E6' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+      </svg>
+    </a>
+  );
+}
+
 export default function TableOfContents() {
   return (
     <div className="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
@@ -75,34 +141,30 @@ export default function TableOfContents() {
         </h2>
       </div>
       <div className="p-6 space-y-6">
-        {documents.map((group, gi) => (
-          <div key={gi}>
-            <h3 className="font-semibold text-lg mb-3 border-b pb-2" style={{ color: '#3D52A0', borderColor: '#dde4f5' }}>
-              {group.category}
-            </h3>
-            <div className="space-y-2">
-              {group.items.map((item) => (
-                <a
-                  key={item.id}
-                  href={`/reference/${encodeURIComponent(item.file)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors group border border-transparent" style={{ }} onMouseEnter={e => { e.currentTarget.style.background='#eef1fb'; e.currentTarget.style.borderColor='#b8c5ef'; }} onMouseLeave={e => { e.currentTarget.style.background=''; e.currentTarget.style.borderColor='transparent'; }}
-                >
-                  <span className="flex-shrink-0 w-14 text-center text-xs font-mono px-2 py-1 rounded" style={{ background: '#eef1fb', color: '#3D52A0' }}>
-                    {item.id}
-                  </span>
-                  <span className="text-slate-700 text-sm flex-1">
-                    {item.name}
-                  </span>
-                  <svg className="w-4 h-4 flex-shrink-0" style={{ color: '#7091E6' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </a>
-              ))}
+        {documents.map((group, gi) => {
+          const tree = buildTree(group.items);
+          return (
+            <div key={gi}>
+              <h3 className="font-semibold text-lg mb-3 border-b pb-2" style={{ color: '#3D52A0', borderColor: '#dde4f5' }}>
+                {group.category}
+              </h3>
+              <div className="space-y-1">
+                {tree.map(({ item, children }) => (
+                  <div key={item.id}>
+                    <DocRow item={item} />
+                    {children.length > 0 && (
+                      <div className="space-y-1 mt-1">
+                        {children.map(child => (
+                          <DocRow key={child.id} item={child} isChild />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
