@@ -1,29 +1,53 @@
+"use client";
+
+import { useState } from "react";
 import { EvidenceLinks } from "@/components/EvidenceLinks";
 
 const P = { dark: "#3D52A0", mid: "#7091E6", light: "#eef1fb", border: "#dde4f5", accent: "#F4A261", accentLight: "#fef3e8", text: "#1e2a4a" };
 
-export default function QuantitativeEvaluation() {
+function CollapseIcon({ open }: { open: boolean }) {
   return (
-    <div className="bg-white rounded-2xl shadow-md overflow-hidden" style={{ border: `1px solid ${P.border}` }}>
-      <div className="px-6 py-4" style={{ background: `linear-gradient(135deg, ${P.dark} 0%, ${P.mid} 100%)` }}>
-        <h2 className="text-xl font-bold text-white flex items-center gap-2">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-          </svg>
-          เอกสารหมายเลข 0.2 - การประเมินเชิงปริมาณ
-        </h2>
+    <svg className="w-5 h-5 transition-transform duration-200 flex-shrink-0"
+      style={{ transform: open ? "rotate(0deg)" : "rotate(-90deg)", color: "#7091E6" }}
+      fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    </svg>
+  );
+}
+
+export default function QuantitativeEvaluation() {
+  const [open, setOpen] = useState<Record<string, boolean>>({ s021: true, s013: true, s022: true });
+  const toggle = (k: string) => setOpen(prev => ({ ...prev, [k]: !prev[k] }));
+
+  return (
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="bg-white rounded-2xl shadow-md overflow-hidden" style={{ border: `1px solid ${P.border}` }}>
+        <div className="px-6 py-4" style={{ background: `linear-gradient(135deg, ${P.dark} 0%, ${P.mid} 100%)` }}>
+          <h2 className="text-xl font-bold text-white flex items-center gap-2">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+            </svg>
+            เอกสารหมายเลข 0.2 - การประเมินเชิงปริมาณ
+          </h2>
+          <p className="text-sm mt-1" style={{ color: "#c8d5f8" }}>คลิกที่หัวข้อเพื่อย่อ/ขยาย</p>
+        </div>
       </div>
 
-      <div className="p-6 space-y-8">
+      <div className="space-y-4">
         {/* 0.2.1 Teaching Workload */}
-        <div>
-          <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
-            <h3 className="text-lg font-semibold flex items-center gap-2" style={{ color: P.text }}>
-              <span className="text-sm px-3 py-1 rounded-full" style={{ background: P.accentLight, color: P.accent }}>0.2.1</span>
-              ภาระงานด้านงานสอน
-            </h3>
-            <EvidenceLinks raw="เอกสารหมายเลข 1.1, 1.2.1, 1.2.2, 1.3, 1.4.1, 1.4.2, 1.4.3, 1.4.4, 1.5" />
-          </div>
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden" style={{ border: `1px solid ${P.border}` }}>
+          <button onClick={() => toggle("s021")} className="w-full flex items-center justify-between px-5 py-4 text-left transition-colors" style={{ background: open.s021 ? P.accentLight : "#fff" }}>
+            <div className="flex items-center gap-3">
+              <span className="text-sm px-3 py-1 rounded-full font-semibold" style={{ background: P.accent + "22", color: P.accent }}>0.2.1</span>
+              <span className="font-semibold" style={{ color: P.text }}>ภาระงานด้านงานสอน</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <EvidenceLinks raw="เอกสารหมายเลข 1.1, 1.2.1, 1.2.2, 1.3, 1.4.1, 1.4.2, 1.4.3, 1.4.4, 1.5" />
+              <CollapseIcon open={open.s021} />
+            </div>
+          </button>
+          {open.s021 && <div className="px-5 pb-5 border-t" style={{ borderColor: P.border }}>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -72,17 +96,22 @@ export default function QuantitativeEvaluation() {
             <p>1. ค่าปัจจัยระดับการสอน: ปวส. และ ป.ตรี = 1, ป.โท = 1.5</p>
             <p>2. วิธีคำนวณ: ชั่วโมงทำการ = ค่าปัจจัย × หน่วยกิต × ภาระงาน/หน่วยกิต ÷ จำนวนผู้สอน</p>
           </div>
+          </div>}
         </div>
 
         {/* Additional teaching tasks */}
-        <div>
-          <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
-            <h3 className="text-lg font-semibold flex items-center gap-2" style={{ color: P.text }}>
-              <span className="text-sm px-3 py-1 rounded-full" style={{ background: P.accentLight, color: P.accent }}>1.2-1.3</span>
-              ภาระงานอื่นๆ ด้านการสอน
-            </h3>
-            <EvidenceLinks raw="เอกสารหมายเลข 1.2.1, 1.2.2, 1.3" />
-          </div>
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden" style={{ border: `1px solid ${P.border}` }}>
+          <button onClick={() => toggle("s013")} className="w-full flex items-center justify-between px-5 py-4 text-left transition-colors" style={{ background: open.s013 ? P.accentLight : "#fff" }}>
+            <div className="flex items-center gap-3">
+              <span className="text-sm px-3 py-1 rounded-full font-semibold" style={{ background: P.accent + "22", color: P.accent }}>1.2-1.3</span>
+              <span className="font-semibold" style={{ color: P.text }}>ภาระงานอื่นๆ ด้านการสอน</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <EvidenceLinks raw="เอกสารหมายเลข 1.2.1, 1.2.2, 1.3" />
+              <CollapseIcon open={open.s013} />
+            </div>
+          </button>
+          {open.s013 && <div className="px-5 pb-5 border-t" style={{ borderColor: P.border }}>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -110,17 +139,22 @@ export default function QuantitativeEvaluation() {
               </tbody>
             </table>
           </div>
+          </div>}
         </div>
 
         {/* 0.2.2 All Areas Summary */}
-        <div>
-          <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
-            <h3 className="text-lg font-semibold flex items-center gap-2" style={{ color: P.text }}>
-              <span className="text-sm px-3 py-1 rounded-full" style={{ background: P.light, color: P.mid }}>0.2.2</span>
-              สรุปปริมาณการปฏิบัติราชการแต่ละด้าน
-            </h3>
-            <EvidenceLinks raw="เอกสารหมายเลข 0.2.2" />
-          </div>
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden" style={{ border: `1px solid ${P.border}` }}>
+          <button onClick={() => toggle("s022")} className="w-full flex items-center justify-between px-5 py-4 text-left transition-colors" style={{ background: open.s022 ? P.light : "#fff" }}>
+            <div className="flex items-center gap-3">
+              <span className="text-sm px-3 py-1 rounded-full font-semibold" style={{ background: P.light, color: P.mid }}>0.2.2</span>
+              <span className="font-semibold" style={{ color: P.text }}>สรุปปริมาณการปฏิบัติราชการแต่ละด้าน</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <EvidenceLinks raw="เอกสารหมายเลข 0.2.2" />
+              <CollapseIcon open={open.s022} />
+            </div>
+          </button>
+          {open.s022 && <div className="px-5 pb-5 border-t" style={{ borderColor: P.border }}>
 
           {/* Research */}
           <div className="mb-6">
@@ -288,6 +322,7 @@ export default function QuantitativeEvaluation() {
               คะแนนเต็ม 60 คะแนน → ได้ 60.00 คะแนน (เกินเกณฑ์ขั้นต่ำ 35 ชั่วโมงทำการ)
             </p>
           </div>
+          </div>}
         </div>
       </div>
     </div>

@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 const documents = [
   {
     category: "เอกสารสรุป",
@@ -157,43 +159,78 @@ function DocRow({ item, isChild }: { item: DocItem; isChild?: boolean }) {
   );
 }
 
-export default function TableOfContents() {
+function CollapseIcon({ open }: { open: boolean }) {
   return (
-    <div className="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
-      <div className="px-6 py-4" style={{ background: "linear-gradient(135deg, #3D52A0 0%, #7091E6 100%)" }}>
-        <h2 className="text-xl font-bold text-white flex items-center gap-2">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          สารบัญเอกสารประกอบการประเมิน
-        </h2>
+    <svg
+      className="w-5 h-5 transition-transform duration-200 flex-shrink-0"
+      style={{ transform: open ? "rotate(0deg)" : "rotate(-90deg)", color: "#7091E6" }}
+      fill="none" stroke="currentColor" viewBox="0 0 24 24"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    </svg>
+  );
+}
+
+export default function TableOfContents() {
+  const [openGroups, setOpenGroups] = useState<Record<number, boolean>>(
+    Object.fromEntries(documents.map((_, i) => [i, true]))
+  );
+
+  const toggle = (i: number) => setOpenGroups(prev => ({ ...prev, [i]: !prev[i] }));
+
+  return (
+    <div className="space-y-3">
+      <div className="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+        <div className="px-6 py-4" style={{ background: "linear-gradient(135deg, #3D52A0 0%, #7091E6 100%)" }}>
+          <h2 className="text-xl font-bold text-white flex items-center gap-2">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            สารบัญเอกสารประกอบการประเมิน
+          </h2>
+          <p className="text-sm mt-1" style={{ color: "#c8d5f8" }}>คลิกที่หมวดหมู่เพื่อย่อ/ขยาย</p>
+        </div>
       </div>
-      <div className="p-6 space-y-6">
-        {documents.map((group, gi) => {
-          const tree = buildTree(group.items);
-          return (
-            <div key={gi}>
-              <h3 className="font-semibold text-lg mb-3 border-b pb-2" style={{ color: '#3D52A0', borderColor: '#dde4f5' }}>
-                {group.category}
-              </h3>
-              <div className="space-y-1">
-                {tree.map(({ item, groupId, children }) => (
-                  <div key={groupId}>
-                    {item && <DocRow item={item} />}
-                    {children.length > 0 && (
-                      <div className="space-y-1 mt-1">
-                        {children.map(child => (
-                          <DocRow key={child.id} item={child} isChild />
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
+
+      {documents.map((group, gi) => {
+        const tree = buildTree(group.items);
+        const isOpen = openGroups[gi] ?? true;
+        return (
+          <div key={gi} className="bg-white rounded-2xl shadow-sm overflow-hidden" style={{ border: "1px solid #dde4f5" }}>
+            <button
+              onClick={() => toggle(gi)}
+              className="w-full flex items-center justify-between px-5 py-4 text-left transition-colors"
+              style={{ background: isOpen ? "linear-gradient(135deg, #eef1fb, #f4f7ff)" : "#fff" }}
+            >
+              <span className="font-semibold text-base" style={{ color: "#3D52A0" }}>{group.category}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#eef1fb", color: "#7091E6" }}>
+                  {group.items.filter(i => i.file || i.url).length} ไฟล์
+                </span>
+                <CollapseIcon open={isOpen} />
               </div>
-            </div>
-          );
-        })}
-      </div>
+            </button>
+            {isOpen && (
+              <div className="px-4 pb-4 space-y-1 border-t" style={{ borderColor: "#eef1fb" }}>
+                <div className="pt-2 space-y-1">
+                  {tree.map(({ item, groupId, children }) => (
+                    <div key={groupId}>
+                      {item && <DocRow item={item} />}
+                      {children.length > 0 && (
+                        <div className="space-y-1 mt-1">
+                          {children.map(child => (
+                            <DocRow key={child.id} item={child} isChild />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

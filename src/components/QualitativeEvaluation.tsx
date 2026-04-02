@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { EvidenceLinks } from "@/components/EvidenceLinks";
 
 interface EvalItem {
@@ -234,9 +237,25 @@ const missionStyle = (id: number) => {
   return styles[id] ?? styles[1];
 };
 
-export default function QualitativeEvaluation() {
+function CollapseIcon({ open }: { open: boolean }) {
   return (
-    <div className="space-y-6">
+    <svg className="w-5 h-5 transition-transform duration-200 flex-shrink-0"
+      style={{ transform: open ? "rotate(0deg)" : "rotate(-90deg)", color: "rgba(255,255,255,0.8)" }}
+      fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    </svg>
+  );
+}
+
+export default function QualitativeEvaluation() {
+  const [openMissions, setOpenMissions] = useState<Record<number, boolean>>(
+    Object.fromEntries([1, 2, 3, 4, 5].map(id => [id, true]))
+  );
+  const [openSummary, setOpenSummary] = useState(true);
+  const toggleMission = (id: number) => setOpenMissions(prev => ({ ...prev, [id]: !prev[id] }));
+
+  return (
+    <div className="space-y-4">
       <div className="bg-white rounded-2xl shadow-md overflow-hidden" style={{ border: `1px solid ${P.border}` }}>
         <div className="px-6 py-4" style={{ background: `linear-gradient(135deg, ${P.dark} 0%, ${P.mid} 100%)` }}>
           <h2 className="text-xl font-bold text-white flex items-center gap-2">
@@ -279,12 +298,20 @@ export default function QualitativeEvaluation() {
       {/* Detailed per-mission */}
       {missions.map((mission) => {
         const ms = missionStyle(mission.id);
+        const isOpen = openMissions[mission.id] ?? true;
         return (
           <div key={mission.id} className="bg-white rounded-2xl shadow-md overflow-hidden" style={{ border: `1px solid ${P.border}` }}>
-            <div className="px-6 py-3" style={{ background: ms.grad }}>
-              <h3 className="text-lg font-bold text-white">
-                {mission.id}. {mission.name}
-              </h3>
+            <button
+              onClick={() => toggleMission(mission.id)}
+              className="w-full px-6 py-3 text-left"
+              style={{ background: ms.grad }}
+            >
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-bold text-white">
+                  {mission.id}. {mission.name}
+                </h3>
+                <CollapseIcon open={isOpen} />
+              </div>
               <div className="flex items-center gap-3 mt-1 flex-wrap">
                 <span className="text-white/80 text-sm">คะแนนเต็ม {mission.maxScore}</span>
                 <span className="text-white font-semibold text-sm">ได้ {mission.totalScore} คะแนน</span>
@@ -292,9 +319,9 @@ export default function QualitativeEvaluation() {
                   <span className="text-white text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(255,255,255,0.2)" }}>{mission.condition}</span>
                 )}
               </div>
-            </div>
+            </button>
 
-            <div className="p-6 space-y-6">
+            {isOpen && <div className="p-6 space-y-6">
               {mission.items.map((item) => (
                 <div key={item.id} className="rounded-xl overflow-hidden" style={{ border: `1px solid ${P.border}` }}>
                   <div className="px-4 py-3 border-b" style={{ background: P.light, borderColor: P.border }}>
@@ -354,17 +381,22 @@ export default function QualitativeEvaluation() {
                 <span className="font-semibold">รวมคะแนน{mission.name}</span>
                 <span className="text-xl font-bold">{mission.totalScore} คะแนน</span>
               </div>
-            </div>
+            </div>}
           </div>
         );
       })}
 
       {/* Final Summary */}
       <div className="bg-white rounded-2xl shadow-md overflow-hidden" style={{ border: `1px solid ${P.border}` }}>
-        <div className="px-6 py-4" style={{ background: `linear-gradient(135deg, ${P.dark} 0%, ${P.mid} 100%)` }}>
+        <button
+          onClick={() => setOpenSummary(prev => !prev)}
+          className="w-full px-6 py-4 text-left flex items-center justify-between"
+          style={{ background: `linear-gradient(135deg, ${P.dark} 0%, ${P.mid} 100%)` }}
+        >
           <h3 className="text-lg font-bold text-white">สรุปการประเมินผลการปฏิบัติงานด้านคุณภาพ (เชิงคุณภาพ)</h3>
-        </div>
-        <div className="p-6">
+          <CollapseIcon open={openSummary} />
+        </button>
+        {openSummary && <div className="p-6">
           <table className="w-full text-sm">
             <thead>
               <tr style={{ background: P.light }}>
@@ -397,7 +429,7 @@ export default function QualitativeEvaluation() {
               </tr>
             </tbody>
           </table>
-        </div>
+        </div>}
       </div>
     </div>
   );
