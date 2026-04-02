@@ -1,3 +1,5 @@
+import { EvidenceLinks } from "@/components/EvidenceLinks";
+
 const P = { dark: "#3D52A0", mid: "#7091E6", light: "#eef1fb", border: "#dde4f5", accent: "#F4A261", accentLight: "#fef3e8", text: "#1e2a4a" };
 
 export default function QuantitativeEvaluation() {
@@ -15,10 +17,13 @@ export default function QuantitativeEvaluation() {
       <div className="p-6 space-y-8">
         {/* 0.2.1 Teaching Workload */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: P.text }}>
-            <span className="text-sm px-3 py-1 rounded-full" style={{ background: P.accentLight, color: P.accent }}>0.2.1</span>
-            ภาระงานด้านงานสอน
-          </h3>
+          <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
+            <h3 className="text-lg font-semibold flex items-center gap-2" style={{ color: P.text }}>
+              <span className="text-sm px-3 py-1 rounded-full" style={{ background: P.accentLight, color: P.accent }}>0.2.1</span>
+              ภาระงานด้านงานสอน
+            </h3>
+            <EvidenceLinks raw="เอกสารหมายเลข 1.1, 1.2.1, 1.2.2, 1.3, 1.4.1, 1.4.2, 1.4.3, 1.4.4, 1.5" />
+          </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -71,10 +76,13 @@ export default function QuantitativeEvaluation() {
 
         {/* Additional teaching tasks */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: P.text }}>
-            <span className="text-sm px-3 py-1 rounded-full" style={{ background: P.accentLight, color: P.accent }}>1.2-1.3</span>
-            ภาระงานอื่นๆ ด้านการสอน
-          </h3>
+          <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
+            <h3 className="text-lg font-semibold flex items-center gap-2" style={{ color: P.text }}>
+              <span className="text-sm px-3 py-1 rounded-full" style={{ background: P.accentLight, color: P.accent }}>1.2-1.3</span>
+              ภาระงานอื่นๆ ด้านการสอน
+            </h3>
+            <EvidenceLinks raw="เอกสารหมายเลข 1.2.1, 1.2.2, 1.3" />
+          </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -106,14 +114,20 @@ export default function QuantitativeEvaluation() {
 
         {/* 0.2.2 All Areas Summary */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: P.text }}>
-            <span className="text-sm px-3 py-1 rounded-full" style={{ background: P.light, color: P.mid }}>0.2.2</span>
-            สรุปปริมาณการปฏิบัติราชการแต่ละด้าน
-          </h3>
+          <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
+            <h3 className="text-lg font-semibold flex items-center gap-2" style={{ color: P.text }}>
+              <span className="text-sm px-3 py-1 rounded-full" style={{ background: P.light, color: P.mid }}>0.2.2</span>
+              สรุปปริมาณการปฏิบัติราชการแต่ละด้าน
+            </h3>
+            <EvidenceLinks raw="เอกสารหมายเลข 0.2.2" />
+          </div>
 
           {/* Research */}
           <div className="mb-6">
-            <h4 className="font-semibold text-slate-700 mb-2 border-l-4 pl-3" style={{ borderColor: P.dark }}>ส่วนที่ 2: งานวิจัยและผลงานวิชาการ</h4>
+            <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
+              <h4 className="font-semibold text-slate-700 border-l-4 pl-3" style={{ borderColor: P.dark }}>ส่วนที่ 2: งานวิจัยและผลงานวิชาการ</h4>
+              <EvidenceLinks raw="เอกสารหมายเลข 2.1.1, 2.1.2, 2.2.1, 2.2.2, 2.2.3, 2.2.4" />
+            </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -142,7 +156,10 @@ export default function QuantitativeEvaluation() {
 
           {/* Academic Service */}
           <div className="mb-6">
-            <h4 className="font-semibold text-slate-700 mb-2 border-l-4 pl-3" style={{ borderColor: P.mid }}>ส่วนที่ 3: งานบริการทางวิชาการ</h4>
+            <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
+              <h4 className="font-semibold text-slate-700 border-l-4 pl-3" style={{ borderColor: P.mid }}>ส่วนที่ 3: งานบริการทางวิชาการ</h4>
+              <EvidenceLinks raw="เอกสารหมายเลข 3.1.1, 3.1.2, 3.1.3, 3.2, 3.3.1, 3.3.2" />
+            </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -175,7 +192,10 @@ export default function QuantitativeEvaluation() {
 
           {/* Arts & Culture */}
           <div className="mb-6">
-            <h4 className="font-semibold text-slate-700 mb-2 border-l-4 pl-3" style={{ borderColor: P.accent }}>ส่วนที่ 4: งานทำนุบำรุงศิลปวัฒนธรรม</h4>
+            <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
+              <h4 className="font-semibold text-slate-700 border-l-4 pl-3" style={{ borderColor: P.accent }}>ส่วนที่ 4: งานทำนุบำรุงศิลปวัฒนธรรม</h4>
+              <EvidenceLinks raw="เอกสารหมายเลข 4.1" />
+            </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -200,7 +220,10 @@ export default function QuantitativeEvaluation() {
 
           {/* Management/Other */}
           <div className="mb-6">
-            <h4 className="font-semibold text-slate-700 mb-2 border-l-4 pl-3" style={{ borderColor: P.dark }}>ส่วนที่ 5: งานอื่นๆ (งานบริหาร/งานมอบหมาย/คำสั่ง)</h4>
+            <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
+              <h4 className="font-semibold text-slate-700 border-l-4 pl-3" style={{ borderColor: P.dark }}>ส่วนที่ 5: งานอื่นๆ (งานบริหาร/งานมอบหมาย/คำสั่ง)</h4>
+              <EvidenceLinks raw="เอกสารหมายเลข 5.1, 5.2.1, 5.2.2, 5.2.3" />
+            </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -211,19 +234,15 @@ export default function QuantitativeEvaluation() {
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   <tr>
-                    <td className="px-4 py-2 text-slate-700">5.1) ผู้บริหาร - หัวหน้าสาขาวิศวกรรมคอมพิวเตอร์</td>
-                    <td className="px-4 py-2 text-center font-semibold" style={{ color: P.dark }}>2.00</td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-2 text-slate-700">5.2) ประธานหลักสูตร วศ.บ. คอมพิวเตอร์</td>
+                    <td className="px-4 py-2 text-slate-700">5.1) ประธานหลักสูตร วศ.บ. คอมพิวเตอร์</td>
                     <td className="px-4 py-2 text-center font-semibold" style={{ color: P.dark }}>5.00</td>
                   </tr>
                   <tr>
                     <td className="px-4 py-2 text-slate-700">5.2) คำสั่งมหาวิทยาลัย (1 คำสั่ง)</td>
-                    <td className="px-4 py-2 text-center font-semibold" style={{ color: P.dark }}>0.00</td>
+                    <td className="px-4 py-2 text-center font-semibold" style={{ color: P.dark }}>2.00</td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-2 text-slate-700">คำสั่งคณะ (3 คำสั่ง)</td>
+                    <td className="px-4 py-2 text-slate-700">5.3) คำสั่งคณะ (3 คำสั่ง)</td>
                     <td className="px-4 py-2 text-center font-semibold" style={{ color: P.dark }}>6.00</td>
                   </tr>
                   <tr className="font-semibold" style={{ background: P.light }}>

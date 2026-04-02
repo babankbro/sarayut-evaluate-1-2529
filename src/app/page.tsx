@@ -22,9 +22,12 @@ export default function Home() {
       <header className="text-white shadow-lg" style={{ background: "linear-gradient(135deg, #3D52A0 0%, #7091E6 100%)" }}>
         <div className="max-w-6xl mx-auto px-4 py-8">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold flex-shrink-0" style={{ background: "rgba(255,255,255,0.18)" }}>
-              สร
-            </div>
+            <img
+              src="/profile.jpg"
+              alt="ผศ.ดร. สรายุทธ กรวิรัตน์"
+              className="w-20 h-20 rounded-full object-cover flex-shrink-0 border-4"
+              style={{ borderColor: "rgba(255,255,255,0.4)", boxShadow: "0 4px 16px rgba(0,0,0,0.18)" }}
+            />
             <div>
               <h1 className="text-2xl md:text-3xl font-bold">
                 ผศ.ดร. สรายุทธ กรวิรัตน์

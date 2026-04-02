@@ -1,3 +1,5 @@
+import { EvidenceLinks } from "@/components/EvidenceLinks";
+
 interface EvalItem {
   id: string;
   name: string;
@@ -341,7 +343,7 @@ export default function QualitativeEvaluation() {
                         )}
                       </div>
                       {item.evidence && (
-                        <span className="text-xs text-slate-400 italic">{item.evidence}</span>
+                        <EvidenceLinks raw={item.evidence} />
                       )}
                     </div>
                   </div>
