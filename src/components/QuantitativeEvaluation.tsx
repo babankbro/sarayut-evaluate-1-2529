@@ -138,7 +138,7 @@ export default function QuantitativeEvaluation() {
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   <tr>
-                    <td className="px-4 py-2 text-slate-700">2.1) หัวหน้าโครงการวิจัย/ผู้ร่วมโครงการวิจัย</td>
+                    <td className="px-4 py-2 text-slate-700">2.1) ผู้ร่วมโครงการวิจัย 2 โครงการ</td>
                     <td className="px-4 py-2 text-center font-semibold" style={{ color: P.dark }}>2.00</td>
                   </tr>
                   <tr>
@@ -170,16 +170,12 @@ export default function QuantitativeEvaluation() {
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   <tr>
-                    <td className="px-4 py-2 text-slate-700">3.1) หัวหน้าโครงการ/ผู้ดำเนินการหลัก (1 โครงการ)</td>
+                    <td className="px-4 py-2 text-slate-700">3.2) วิทยากรฝึกอบรม 3 โครงการ 15 ชั่วโมง</td>
                     <td className="px-4 py-2 text-center font-semibold" style={{ color: P.mid }}>1.00</td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-2 text-slate-700">3.2) วิทยากรฝึกอบรม</td>
-                    <td className="px-4 py-2 text-center font-semibold" style={{ color: P.mid }}>1.00</td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-2 text-slate-700">3.3) งานบริการวิชาการที่ได้รับเงินสนับสนุน</td>
-                    <td className="px-4 py-2 text-center font-semibold" style={{ color: P.mid }}>3.00</td>
+                    <td className="px-4 py-2 text-slate-700">3.3) กรรมการคุมสอบวิทยานิพนธ์ 4 ท่าน</td>
+                    <td className="px-4 py-2 text-center font-semibold" style={{ color: P.mid }}>4.00</td>
                   </tr>
                   <tr className="font-semibold" style={{ background: "#f4f6fe" }}>
                     <td className="px-4 py-2 text-right" style={{ color: P.mid }}>รวมภาระงานบริการวิชาการ</td>
