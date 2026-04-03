@@ -123,12 +123,12 @@ export default function QuantitativeEvaluation() {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 <tr className="hover:bg-slate-50 transition-colors">
-                  <td className="px-4 py-3 text-slate-700">1.2) ที่ปรึกษาปัญหาพิเศษ/วิทยานิพนธ์</td>
+                  <td className="px-4 py-3 text-slate-700">1.2) ที่ปรึกษาปัญหาพิเศษ/วิทยานิพนธ์ โครงงาน 2 กลุ่ม 6 ชั่วโมง</td>
                   <td className="px-4 py-3 text-center text-slate-600">ที่ปรึกษาหลัก</td>
                   <td className="px-4 py-3 text-center font-semibold" style={{ color: P.dark }}>1.35</td>
                 </tr>
                 <tr className="hover:bg-slate-50 transition-colors">
-                  <td className="px-4 py-3 text-slate-700">1.3) อาจารย์ที่ปรึกษานักศึกษา</td>
+                  <td className="px-4 py-3 text-slate-700">1.3) อาจารย์ที่ปรึกษานักศึกษาห้อง CE6541 1.35 ชั่วโมง</td>
                   <td className="px-4 py-3 text-center text-slate-600">-</td>
                   <td className="px-4 py-3 text-center font-semibold" style={{ color: P.dark }}>0.00</td>
                 </tr>
